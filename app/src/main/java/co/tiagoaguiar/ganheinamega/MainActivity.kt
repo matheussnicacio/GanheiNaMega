@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // buscar os objetos e ter referencia deles
-        val editText : EditText = findViewById(R.id.edit_number)
-        val txtResult : TextView = findViewById(R.id.txt_result)
-        val btnGenerate : Button = findViewById(R.id.btn_generate)
+        val editText: EditText = findViewById(R.id.edit_number)
+        val txtResult: TextView = findViewById(R.id.txt_result)
+        val btnGenerate: Button = findViewById(R.id.btn_generate)
 
         // opção 1 : XML
 
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         // !! opção 3 : mais simples possivel - bloco de codigo que sera disparado pelo onClickListener
 
-        btnGenerate.setOnClickListener{
+        btnGenerate.setOnClickListener {
             // aqui podemos colocar nossa logica de programação. Porque será disparado depois do
             // evento touch do usuario
             val text = editText.text.toString()
@@ -38,43 +38,40 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-private fun numberGenerator(text : String, txtResult : TextView){
 
-    // validar quando o campo é vazio
-    if (text.isNotEmpty()){
+    private fun numberGenerator(text: String, txtResult: TextView) {
 
+        // aqui é a falha numero 1
+        if (text.isEmpty()) {
+            /// vai dar falha
+            Toast.makeText(this, "informe um numero entre 6 e 15", Toast.LENGTH_LONG).show()
+            return
+        }
         val qtd = text.toInt() //Convert to String
 
-        // validar se o campo informdo é entre 6 e 15
-        if (qtd >= 6 && qtd <= 15){
-
-            val numbers = mutableSetOf<Int>()
-            val random = Random.Default
-
-
-            while (true){
-                val number = random.nextInt(60) // 0...59
-                numbers.add(number+1)
-
-                if(numbers.size == qtd){
-                    break
-                }
-            }
-
-          txtResult.text = numbers.joinToString (" - ")
-
-        }else {
+        // aqui é a falha numero 2
+        if (qtd < 6 || qtd > 15) {
+            // deu falha
             Toast.makeText(this, "informe um numero entre 6 e 15", Toast.LENGTH_LONG).show()
+            return
         }
 
-    }else{
-Toast.makeText(this, "informe um numero entre 6 e 15", Toast.LENGTH_LONG).show()
+        // aqui é o sucesso
+        val numbers = mutableSetOf<Int>()
+        val random = Random.Default
+
+        while (true) {
+            val number = random.nextInt(60) // 0...59
+            numbers.add(number + 1)
+
+            if (numbers.size == qtd) {
+                break
+            }
+        }
+
+        txtResult.text = numbers.joinToString(" - ")
+
     }
-
-
-    // validar se ocampo informado é entre 6 a 15
-
-}
 
     // opção 2 :  variavel que seja do tipo (objeto anonimo) view.OnClickListener (interface)
 //    val buttonClickListener = View.OnClickListener{
@@ -87,9 +84,9 @@ Toast.makeText(this, "informe um numero entre 6 e 15", Toast.LENGTH_LONG).show()
 //        override fun onClick(v: View?) {
 //        Log.i("Teste","Botao clicado!!!")
 //        }
-    }
+}
 
-    // opção 1 : XML
+// opção 1 : XML
 //    fun buttonClicked (view : View){
 //        Log.i("Teste","Botao clicado!!!")
 //    }
