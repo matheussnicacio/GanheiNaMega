@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.random.Random
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,23 @@ private fun numberGenerator(text : String, txtResult : TextView){
 
         val qtd = text.toInt() //Convert to String
 
+        // validar se o campo informdo é entre 6 e 15
         if (qtd >= 6 && qtd <= 15){
+
+            val numbers = mutableSetOf<Int>()
+            val random = Random.Default
+
+
+            while (true){
+                val number = random.nextInt(60) // 0...59
+                numbers.add(number+1)
+
+                if(numbers.size == qtd){
+                    break
+                }
+            }
+
+          txtResult.text = numbers.joinToString (" - ")
 
         }else {
             Toast.makeText(this, "informe um numero entre 6 e 15", Toast.LENGTH_LONG).show()
