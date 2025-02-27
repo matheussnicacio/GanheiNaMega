@@ -1,5 +1,7 @@
 package co.tiagoaguiar.ganheinamega
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +14,12 @@ import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         // aqui onde voce decide o que app vai fazer...
         setContentView(R.layout.activity_main)
@@ -22,6 +28,14 @@ class MainActivity : AppCompatActivity() {
         val editText: EditText = findViewById(R.id.edit_number)
         val txtResult: TextView = findViewById(R.id.txt_result)
         val btnGenerate: Button = findViewById(R.id.btn_generate)
+
+
+        prefs = getSharedPreferences("db", Context.MODE_PRIVATE)
+        val result = prefs.getString("result", null)
+
+        if (result != null){
+            txtResult.text ="Ultima aposta!!! $result"
+        }
 
         // opção 1 : XML
 
@@ -70,6 +84,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         txtResult.text = numbers.joinToString(" - ")
+        val editor = prefs.edit()
+        editor.putString("result", txtResult.text.toString())
+
+        val saved = editor.commit()
+
+        Log.i("Teste", "Foi salvo : $saved")
+
+        // commit -> salvar de forma sincrona (bloquear a interface)
+        // informar se teve sucesso ou nao
+
+        // apply -> salvar de forma asincrona (nao vai bloquear a interface)
+        // nao informa se teve sucesso ou nao
 
     }
 
