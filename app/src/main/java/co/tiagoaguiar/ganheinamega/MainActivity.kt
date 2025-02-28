@@ -32,10 +32,26 @@ class MainActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences("db", Context.MODE_PRIVATE)
         val result = prefs.getString("result", null)
+        // ou retornar um valor de string padrao
+        // ou retornar null e nao mostrar nada!
 
+
+
+        // if -> let
+        /*
         if (result != null){
             txtResult.text ="Ultima aposta!!! $result"
         }
+         */
+
+
+        result?.let {
+            txtResult.text = "Ultima aposta!!! $it"
+        }
+
+
+//        txtResult.text = "Ultima aposta!!! $result"
+
 
         // opção 1 : XML
 
@@ -90,6 +106,16 @@ class MainActivity : AppCompatActivity() {
         val saved = editor.commit()
 
         Log.i("Teste", "Foi salvo : $saved")
+
+
+/*        // Alternativa 2
+
+        prefs.edit().apply{
+            putString("result", txtResult.text.toString())
+            apply()
+        }
+*/
+
 
         // commit -> salvar de forma sincrona (bloquear a interface)
         // informar se teve sucesso ou nao
